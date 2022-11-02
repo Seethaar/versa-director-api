@@ -31,19 +31,16 @@ class DirectorAccess:
     else:
       self.region = os.environ.get('V_REGION')
     if not os.environ.get('V_API_CSECRET'):
-      # raise ValueError("please define environment variable V_API_CSECRET with Versa supplied Oauth API Client Secret")
       self.api_client_secret = getpass("please input Versa supplied Oauth API Client Secret : ")
       logging.info('Just in case you are wondering, your input for API secret was collected. Thanks.')
     else:
       self.api_client_secret = os.environ.get('V_API_CSECRET')
     if not os.environ.get('V_USER'):
-      # raise ValueError("please define environment variable V_USER with the tenantsuperadmin username")
       self.username = input("please input the versa director username : ")
     else:
       self.username = os.environ.get('V_USER')
       logging.info(f'The versa director username {self.username} was chosen by this program. Thanks.')
     if not os.environ.get('V_PASS'):
-      # raise ValueError("please define environment variable V_PASS with the tenantsuperadmin password")
       self.password = getpass("please input the versa director password : ")
       logging.info('Just in case you are wondering, your input for versa director was collected. Thanks.')
     else:
@@ -55,13 +52,7 @@ class DirectorAccess:
     logging.info(f"You have selected Versa {self.tenancy} headend and {self.region} tenancy.\n")
     self.director_url = this_director['url']
     self.rest_api_port = str(this_director['rest_api_port'])
-    # self.auth_token_port = str(this_director['auth_token_port'])
-    # self.region = this_director['region']
-    # self.tenancy = this_director['tenancy']
     self.api_client_id = this_director['api_client_id']
-    # self.api_client_secret = os.environ.get('V_API_CSECRET')
-    # self.username = os.environ.get('V_USER')
-    # self.password = os.environ.get('V_PASS') 
 
   @staticmethod
   def store_tokens(username,password,access_token,refresh_token,region,tenancy):
@@ -121,14 +112,7 @@ class DirectorAccess:
     :Inputs: None
     :Outputs: Access and Refresh Tokens -> String
     :Store: Byte-Code File in temp directory
-    '''
-    # if not(os.environ.get('V_ENV') or os.environ.get('V_USER')):
-    #   raise Exception("Please export the Credentials to Environmental Variables V_USER and V_ENV with Versa Director credentials and try again")
-    #   sys.exit(1)
-    # if os.environ.get('V_PASS'):
-    #   self.password = os.environ.get('V_PASS')
-    # else:
-    #   self.password = getpass("Please enter the API password :")    
+    '''   
     token_validity = 0
     datapath = Path(tempfile.gettempdir() + f'/{self.region}_{self.tenancy}_{self.username}')
     if os.path.exists(datapath):
@@ -174,21 +158,16 @@ class DirectorAccess:
         os.remove(datapath)
     if token_validity == 0:
       # SEEKING NEW ACCESS & REFRESH TOKENS FROM VD AUTH API
-      #self.password = getpass()
-      #self.password = os.environ['V_PASS']
-      # self.username = os.environ['V_USER']
-      # encoded_auth_string =  base64.b64encode((f'{self.username}:{self.password}').encode("ascii")).decode("ascii")
-      encoded_auth_string =  base64.b64encode((f'{self.username}:{self.password}').encode()).decode()
-      headers = {'Accept': 'application/json','Content-Type': 'application/json', 'Authorization': f'Basic {encoded_auth_string}'}
+#       encoded_auth_string =  base64.b64encode((f'{self.username}:{self.password}').encode()).decode()
+#       headers = {'Accept': 'application/json','Content-Type': 'application/json', 'Authorization': f'Basic {encoded_auth_string}'}
+      headers = {'Accept': 'application/json','Content-Type': 'application/json'}
       payload = json.dumps({"client_id": self.api_client_id, "client_secret": self.api_client_secret, "username": self.username, "password": self.password,"grant_type": "password" })
-      # response = requests.post(f'{self.director_url}:{self.auth_token_port}/auth/token', headers=headers, data=payload)
       response = requests.post(f'{self.director_url}:{self.rest_api_port}/auth/token', headers=headers, data=payload)
       if response.status_code == 200:
         self.access_token = response.json()["access_token"]
         self.refresh_token = response.json()["refresh_token"]
         DirectorAccess.store_tokens(self.username,self.password, self.access_token, self.refresh_token,self.region,self.tenancy)        
         logging.info('Just requested new tokens from VD API...\n')
-        # self.token_type = response.json()["token_type"]
       else:
         raise Exception(response.json()['error_description'])
       return self.region, self.tenancy, self.access_token, self.refresh_token
