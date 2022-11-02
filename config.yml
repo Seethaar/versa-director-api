@@ -1,0 +1,31 @@
+---
+APAC_ACME:
+  url: <Versa APAC API Gateway>
+  rest_api_port: 9183
+  vgw_templates:
+    - Name: ACME-SWG-Prod
+      Category: Service
+    - Name: SIN-VGW01
+      Category: SDWAN Post Staging
+    - Name: ACME-DataStore
+      Category: Common
+EMEA_ACME:
+  url: <Versa EMEA API Gateway>
+  rest_api_port: 9183
+  vgw_templates:
+    - Name: ACME-SWG-Prod
+      Category: Service
+    - Name: LON-VGW01
+      Category: SDWAN Post Staging
+    - Name: ACME-DataStore
+      Category: Common
+US_ACME:
+  url: <Versa US API Gateway>
+  rest_api_port: 9183
+  vgw_templates:
+    - Name: ACME-SWG-Prod
+      Category: Service
+    - Name: CHI-Hub01
+      Category: SDWAN Post Staging
+    - Name: ACME-DataStore
+      Category: Common
