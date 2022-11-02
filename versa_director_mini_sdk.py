@@ -170,7 +170,7 @@ class DirectorAccess:
         else:
           return self.region, self.tenancy, self.access_token, self.refresh_token   
       else:
-        token_validity == 0
+        token_validity = 0
         os.remove(datapath)
     if token_validity == 0:
       # SEEKING NEW ACCESS & REFRESH TOKENS FROM VD AUTH API
