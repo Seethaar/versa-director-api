@@ -32,6 +32,6 @@ Reference: https://versa-networks.com/documents/datasheets/versa-concerto.pdf
   8. ***create_blank_ngfw_service_template*** - POST a blank NGFW service template.
   9. ***get_list_of_org_service_templates*** - get the list of service templates in an org.
   10. ***get_service_template*** - same as 7.
-  11. ***get_device_template_juniper*** - ask for a service template in Juniper style config format. This is the recommended format for configuration tracking as it makes it easier to compare the configuration constructs with that on the Versa Director GUI. The configuration snapshots are stored in this format and also Versa Support are very conversant with this format, which helps in troubleshooting.
+  11. ***get_service_template_juniper*** - ask for a service template in Juniper style config format. This is the recommended format for configuration tracking as it makes it easier to compare the configuration constructs with that on the Versa Director GUI. The configuration snapshots are stored in this format and also Versa Support are very conversant with this format, which helps in troubleshooting.
   12. ***clone_service_template*** - clone an existing service template.
   13. ***delete_ngfw_service_template*** - delete an existing service template.
