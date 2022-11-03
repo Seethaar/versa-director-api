@@ -231,18 +231,6 @@ class DirectorAccess:
     '''
     return self.run_api_get_call(f'/api/config/devices/template/{template_name}?deep=true')
 
-  def get_device_template_juniper(self,template_name=None):
-    '''
-    Method to collect a device template listed on the Versa Director API.
-
-    :Inputs: Name of the Template -> String
-    :Outputs: Response from API call -> JSON object
-    '''
-    headers = {'Accept': 'text/plain', 'Authorization': f'Bearer {self.access_token}'}
-    response = requests.request("GET", f'{self.director_url}:{self.rest_api_port}/vnms/template/export?templateName={template_name}', headers=headers)
-    if not response.ok:
-      response.raise_for_status()
-    return response.text
 
   ### NGFW Service Template Operations - Create, Read, Update and Delete ###
   def create_blank_ngfw_service_template(self,ngfw_st_template_name=None,tenant_org_name=None):
@@ -285,6 +273,19 @@ class DirectorAccess:
     :Outputs: Response from API call -> JSON object
     '''
     return self.run_api_get_call(f'/api/config/devices/template/{ngfw_st_template_name}?deep=true')
+ 
+  def get_service_template_juniper(self,template_name=None):
+    '''
+    Method to collect a device template listed on the Versa Director API.
+
+    :Inputs: Name of the Template -> String
+    :Outputs: Response from API call -> JSON object
+    '''
+    headers = {'Accept': 'text/plain', 'Authorization': f'Bearer {self.access_token}'}
+    response = requests.request("GET", f'{self.director_url}:{self.rest_api_port}/vnms/template/export?templateName={template_name}', headers=headers)
+    if not response.ok:
+      response.raise_for_status()
+    return response.text
 
   def clone_service_template(self,ngfw_st_template_name=None,source_org=None,target_org=None):
     '''
@@ -364,7 +365,7 @@ if __name__ == '__main__':
       os.makedirs(dirpath) 
     except OSError as error: 
       print(f"{dirpath} exists") 
-    result_tmpl = d.get_device_template(st_name)
+    result_tmpl = d.get_service_template(st_name)
 
     # storing config in YAML format
     yamlfilepath = os.path.join(dirpath, f"{st_name}.yml")
@@ -382,7 +383,7 @@ if __name__ == '__main__':
       continue
     # storing config in Juniper format
     jnprfilepath = os.path.join(dirpath, f"{st_name}.cfg")
-    result_tmpl_juniper = d.get_device_template_juniper(st_name)
+    result_tmpl_juniper = d.get_service_template_juniper(st_name)
     with open (jnprfilepath,"w") as fh:
       fh.write(result_tmpl_juniper)
     print(f"{st_name}.cfg Juniper Style config was created successfully")
