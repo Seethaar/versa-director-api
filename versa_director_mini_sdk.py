@@ -387,9 +387,3 @@ if __name__ == '__main__':
     with open (jnprfilepath,"w") as fh:
       fh.write(result_tmpl_juniper)
     print(f"{st_name}.cfg Juniper Style config was created successfully")
-  
-
-
-
-
-
