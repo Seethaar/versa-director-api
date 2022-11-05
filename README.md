@@ -37,3 +37,4 @@ Reference: https://versa-networks.com/documents/datasheets/versa-concerto.pdf
   13. ***delete_ngfw_service_template*** - delete an existing service template.
 
 ## Blog Post
+https://medium.com/@ayyapanr/i-dont-know-what-runs-my-sase-network-it-is-the-other-way-around-f17ba4a16acc
